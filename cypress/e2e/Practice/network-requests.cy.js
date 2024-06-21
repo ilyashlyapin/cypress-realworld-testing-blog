@@ -17,6 +17,12 @@ describe("Network Requests", () => {
   });
 
   it("/api/posts returns a status code of 200", () => {
+    cy.request('/api/posts')
+      .then((response) => {
+        // Assert that the status code is 200
+        expect(response.status).to.eq(200);
+      });
+   
     // Write an assertion that the route '/api/posts'
     // returns a status code of 200
     // Hint: You will need to use cy.request()
