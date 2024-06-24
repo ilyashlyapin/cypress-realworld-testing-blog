@@ -30,19 +30,32 @@ describe("Network Requests", () => {
   });
 
   it("/api/posts returns the correct number of posts", () => {
+    cy.request('/api/posts')
+    .then((response) => {
+      expect(response.body.length).to.be.at.least(2);
+      response.body.forEach((post) => {
+        expect(post).to.have.property('id');
+      });
+    });  
     // Write an assertion that the route '/api/posts'
     // returns the correct number of posts.
   });
 
   it("the posts.json fixture returns the correct number of posts", () => {
+    cy.fixture("posts").then((response) => {
+      expect(response.length).to.eq(25);
+    });
+    });
+        
     // Write an assertion that the route '/api/posts'
     // returns the correct number of posts.
     // There are 25 total posts in the fixture
     // Hint: You will need to use cy.fixture()
     // https://docs.cypress.io/api/commands/fixture
-  });
+  
 
   it("intercepts /api/posts and returns the correct number of posts", () => {
+    cy.wait("@posts").its("response.body").should("have.length", 2);
     // Wait upon the @posts intercept that happens in the beforeEach()
     // and assert that the response contains the correct number of posts
     // Hint: you will need to cy.wait() to wait upon the @posts alias.
